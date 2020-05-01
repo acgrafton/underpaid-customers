@@ -1,61 +1,36 @@
-melon_cost = 1.00
 
-customer1_name = "Joe"
-customer1_melons = 5
-customer1_paid = 5.00
+def print_payment_discrepancies(path, melon_cost=1.00):
+  """Given path and melon cost, print report showing customers with payments discrepant from amount due based on purchase
 
-customer2_name = "Frank"
-customer2_melons = 6
-customer2_paid = 6.00
+  Opens the customer-orders file at [path], processes each line, and prints all customers with discrepancies into file."""
 
-customer3_name = "Sally"
-customer3_melons = 3
-customer3_paid = 3.00
+  #open [path] file to parse through lines
+  file = open(path)
 
-customer4_name = "Sean"
-customer4_melons = 9
-customer4_paid = 9.50
+  #loop through each line
+  for line in file:
+      #remove blank spaces on the right
+      line = line.rstrip()
+      #split each line into a list separated by a "|""
+      words = line.split("|")
 
-customer5_name = "David"
-customer5_melons = 4
-customer5_paid = 4.00
+      #assign variables to list items corresponding to customer name, melons, and amount paid
+      customer_name = words[1]
+      melons = float(words[2])
+      amount_paid = float(words[3])
+      #calculate amount due for each customer
+      amount_due = melons * melon_cost
+      variance = amount_due - amount_paid
 
-customer6_name = "Ashley"
-customer6_melons = 3
-customer6_paid = 2.00
+      #if there is a variance, print out a line indicating customer name, what they paid, and the variance
+      if amount_due != amount_paid:
+          print(f"{customer_name} paid ${amount_paid:.2f},",
+                f"original amount due ${amount_due:.2f},"
+                f"remaining balance ${variance:.2f}"
+                )
+  #close the file        
+  file.close()
 
-customer1_expected = customer1_melons * melon_cost
-if customer1_expected != customer1_paid:
-    print(f"{customer1_name} paid ${customer1_paid:.2f},",
-          f"expected ${customer1_expected:.2f}"
-          )
+#call the function
+print_payment_discrepancies("customer-orders.txt")
 
-customer2_expected = customer2_melons * melon_cost
-if customer2_expected != customer2_paid:
-    print(f"{customer2_name} paid ${customer2_paid:.2f},",
-          f"expected ${customer2_expected:.2f}"
-          )
-
-customer3_expected = customer3_melons * melon_cost
-if customer3_expected != customer3_paid:
-    print(f"{customer3_name} paid ${customer3_paid:.2f},",
-          f"expected ${customer3_expected:.2f}"
-          )
-
-customer4_expected = customer4_melons * melon_cost
-if customer4_expected != customer4_paid:
-    print(f"{customer4_name} paid ${customer4_paid:.2f},",
-          f"expected ${customer4_expected:.2f}"
-          )
-
-customer5_expected = customer5_melons * melon_cost
-if customer5_expected != customer5_paid:
-    print(f"{customer5_name} paid ${customer5_paid:.2f},",
-          f"expected ${customer5_expected:.2f}"
-          )
-
-customer6_expected = customer6_melons * melon_cost
-if customer6_expected != customer6_paid:
-    print(f"{customer6_name} paid ${customer6_paid:.2f},",
-          f"expected ${customer6_expected:.2f}"
-          )
